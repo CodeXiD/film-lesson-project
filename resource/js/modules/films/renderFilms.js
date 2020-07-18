@@ -4,6 +4,7 @@ import {filmTemplate} from "./filmTemplate";
 import {render} from "../../utils/render";
 import {createFilmsTemplate} from "./filmsTemplate";
 
+
 const films = generateFilms(FILM_COUNT);
 let showingFilms = 0;
 let viewTypeFilms = `rows`;
@@ -20,7 +21,7 @@ const renderFilms = (mode = `render`) => {
 
             if(showingFilms >= FILM_COUNT) return false;
 
-            films.slice(showingFilms, showingFilms+SHOWING_FILMS_FROM_LOAD_MODE).forEach((film, index) => {
+            films.slice(showingFilms, showingFilms+SHOWING_FILMS_FROM_LOAD_MODE).forEach((film) => {
                 render(`#films .main__items-rows`, filmTemplate(film));
             });
 
@@ -31,7 +32,6 @@ const renderFilms = (mode = `render`) => {
     }else if(mode === `rerender`){
         showingFilms = 0;
         renderFilms();
-        console.log('reRENDER')
     }
 };
 

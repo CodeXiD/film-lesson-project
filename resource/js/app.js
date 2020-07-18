@@ -1,27 +1,25 @@
-import {headerTemplate} from "./modules/headerTemplate";
-import {mainTemplate} from "./modules/mainTemplate";
-import {footerTemplate} from "./modules/footerTemplate";
-import {render} from "./utils/render";
-import {renderFilms, changeViewTypeFilm} from "./modules/films/renderFilms";
+import {renderDom} from "./utils/render";
+import HeaderComponent from "./components/HeaderComponent";
+import FooterComponent from "./components/FooterComponent";
+import FilmsComponent from "./components/Films/FilmsComponent";
+import RenderFilmsComponent from "./components/Films/RenderFilmsComponent";
+import {generateFilms} from "./mock/film";
+import LoadMoreButtonComponent from "./components/Films/LoadMoreButtonComponent";
 
-render(`#app`, headerTemplate());
-render(`#app`, mainTemplate());
-render(`#app`, footerTemplate());
+const appElement = document.querySelector(`#app`);
 
-document.querySelector(`#films #load-more`).addEventListener(`click`, () => {
-    renderFilms();
-});
+renderDom(appElement, new HeaderComponent().getElement(), `before`);                // РЕНДЕРИМ HEADER
+renderDom(appElement, new FilmsComponent().getElement(), `before`);                 // РЕНДЕРИМ ОБЩЕЕ ПОЛЕ ДЛЯ ФИЛЬМОВ
+renderDom(appElement, new FooterComponent().getElement(), `before`);                // РЕНДЕРИМ FOOTER
+new RenderFilmsComponent(`#films-board`, generateFilms(10)).render();   // РЕНДЕРИМ ФИЛЬМЫ
 
-document.querySelector(`section#films > .films__title > #view-type-films > .rows`).addEventListener(`click`, () => {
-    changeViewTypeFilm(`rows`);
-    // eslint-disable-next-line no-console
-    console.log(`rows`)
-    renderFilms(`rerender`);
-});
 
-document.querySelector(`section#films > .films__title > #view-type-films > .lines`).addEventListener(`click`, () => {
-    changeViewTypeFilm(`lines`);
-    // eslint-disable-next-line no-console
-    console.log(`lines`)
-    renderFilms(`rerender`);
-});
+
+const renderLoadMoreButton = () => {
+    const buttonElement = new LoadMoreButtonComponent().getElement();
+    buttonElement.addEventListener(`click`, () => {});
+    renderDom(appElement.querySelector(`#main`), buttonElement, `before`);
+};
+
+
+renderLoadMoreButton();     // РЕНДЕР КНОПКИ ПОДРУЗКИ ФИЛЬМОВ + СОБЫТИЕ НАЖАНИЯ

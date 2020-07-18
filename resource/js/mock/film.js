@@ -45,7 +45,7 @@ const generateFilm = () => {
     };
 };
 
-const generateFilms = (count) => {
+const generateFilms = (count = 1) => {
     return new Array(count).fill(``).map(generateFilm);
 };
 

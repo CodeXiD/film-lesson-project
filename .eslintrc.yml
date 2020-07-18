@@ -1,0 +1,9 @@
+parser: babel-eslint
+
+rules:
+  no-console:
+    - error
+  no-var: error
+  quotes:
+    - error
+    - backtick

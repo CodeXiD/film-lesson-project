@@ -6,6 +6,7 @@ import RenderFilmsComponent from "./components/Films/RenderFilmsComponent";
 import {generateFilms} from "./mock/film";
 import LoadMoreButtonComponent from "./components/Films/LoadMoreButtonComponent";
 import {FILM_COUNT} from "./const";
+ import {removeComponent} from "./utils/removeComponent";
 
 const appElement = document.querySelector(`#app`);
 const films = generateFilms(FILM_COUNT);
@@ -31,7 +32,7 @@ const renderLoadMoreButton = () => {
     buttonElement.addEventListener(`click`, function() {
         renderingFilms.renderLoadMore();
         if(renderingFilms.checkingEndFilmList()) {
-            button.removeElement();
+            removeComponent(button);
         }
     });
 

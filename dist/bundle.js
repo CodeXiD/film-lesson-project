@@ -129,13 +129,65 @@ renderingFilms.renderFirstPage();       // РЕНДЕРИМ ФИЛЬМЫ
 
 const renderLoadMoreButton = () => {
     if(films.length === 0) return;
-    const buttonElement = new _components_Films_LoadMoreButtonComponent__WEBPACK_IMPORTED_MODULE_6__["default"](renderingFilms).getElement();
+
+    const button = new _components_Films_LoadMoreButtonComponent__WEBPACK_IMPORTED_MODULE_6__["default"]();
+    const buttonElement = button.getElement();
+
+    buttonElement.addEventListener(`click`, function() {
+        renderingFilms.renderLoadMore();
+        if(renderingFilms.checkingEndFilmList()) {
+            button.removeElement();
+        }
+    });
+
     Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement.querySelector(`#main`), buttonElement, `before`);
 };
 
 
 renderLoadMoreButton();     // РЕНДЕР КНОПКИ ПОДРУЗКИ ФИЛЬМОВ + СОБЫТИЕ НАЖАНИЯ
 
+
+/***/ }),
+
+/***/ "./resource/js/components/AbstractComponent.js":
+/*!*****************************************************!*\
+  !*** ./resource/js/components/AbstractComponent.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AbstractComponent; });
+/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/createElement */ "./resource/js/utils/createElement.js");
+
+
+class AbstractComponent{
+    constructor() {
+        if(new.target === AbstractComponent){
+            throw new Error(`Нельзя вызвать абстрактный класс AbstractComponent`);
+        }
+
+        this._element = null;
+    }
+
+    getTemplate() {
+        throw new Error(`Нельзя вызвать абстрактный метод getTemplate() из абстрактнного класса AbstractComponent`);
+    }
+
+    getElement(){
+        if(this._element === null) {
+            this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
+        }
+
+        return this._element;
+    }
+
+    removeElement(){
+        if(this._element !== null) this._element.remove();
+        this._element = null;
+    }
+}
 
 /***/ }),
 
@@ -149,7 +201,7 @@ renderLoadMoreButton();     // РЕНДЕР КНОПКИ ПОДРУЗКИ ФИЛ
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmComponent; });
-/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/createElement */ "./resource/js/utils/createElement.js");
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
 const createFilmTemplate = (film) => {
@@ -165,26 +217,14 @@ const createFilmTemplate = (film) => {
   `);
 };
 
-class FilmComponent {
+class FilmComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
     constructor(film){
+        super();
         this._film = film;
-        this._element = null;
     }
 
     getTemplate(){
         return createFilmTemplate(this._film)
-    }
-
-    getElement(){
-        if(this._element === null){
-           this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
-        }
-
-        return this._element
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }
 
@@ -200,7 +240,7 @@ class FilmComponent {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmMoreInfoComponent; });
-/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/createElement */ "./resource/js/utils/createElement.js");
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
 const template = (film) => {
@@ -217,26 +257,15 @@ const template = (film) => {
   `);
 };
 
-class FilmMoreInfoComponent {
+class FilmMoreInfoComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
     constructor(film){
+        super();
+
         this._film = film;
-        this._element = null;
     }
 
     getTemplate(){
         return template(this._film)
-    }
-
-    getElement(){
-        if(this._element === null){
-           this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
-        }
-
-        return this._element
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }
 
@@ -252,7 +281,7 @@ class FilmMoreInfoComponent {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmsComponent; });
-/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/createElement */ "./resource/js/utils/createElement.js");
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
 const createFilmsTemplate = () => {
@@ -267,25 +296,9 @@ const createFilmsTemplate = () => {
         `);
 };
 
-class FilmsComponent{
-    constructor() {
-        this._element = null;
-    }
-
+class FilmsComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
     getTemplate() {
         return createFilmsTemplate();
-    }
-
-    getElement(){
-        if(this._element === null){
-            this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
-        }
-
-        return this._element;
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }
 
@@ -301,7 +314,7 @@ class FilmsComponent{
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LoadMoreButtonComponent; });
-/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/createElement */ "./resource/js/utils/createElement.js");
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
 
@@ -311,37 +324,9 @@ const template = () => {
   );
 };
 
-class LoadMoreButtonComponent{
-    constructor(rendering) {
-        this._rendering = rendering;
-        this._element = null;
-    }
-
+class LoadMoreButtonComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
     getTemplate(){
         return template();
-    }
-
-    getElement(){
-        if(this._element === null){
-            this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
-        }
-
-        const self = this;
-        this._element.addEventListener(`click`, function() {
-            self._rendering.renderLoadMore();
-
-            if(self._rendering.checkingEndFilmList()) {
-                self.removeElement();
-            }
-        });
-
-
-        return this._element;
-    }
-
-    removeElement(){
-        this._element.remove();
-        this._element = null;
     }
 }
 
@@ -357,7 +342,7 @@ class LoadMoreButtonComponent{
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NoFilmsComponent; });
-/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/createElement */ "./resource/js/utils/createElement.js");
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
 const template = () => {
@@ -366,25 +351,9 @@ const template = () => {
     `);
 };
 
-class NoFilmsComponent {
-    constructor(){
-        this._element = null;
-    }
-
+class NoFilmsComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
     getTemplate(){
         return template()
-    }
-
-    getElement(){
-        if(this._element === null){
-           this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
-        }
-
-        return this._element
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }
 
@@ -485,7 +454,7 @@ class RenderFilmsComponent{
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FooterComponent; });
-/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/createElement */ "./resource/js/utils/createElement.js");
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
 const footerTemplate = () => {
@@ -497,25 +466,9 @@ const footerTemplate = () => {
         `);
 };
 
-class FooterComponent {
-    constructor() {
-        this._element = null;
-    }
-
+class FooterComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
     getTemplate(){
         return footerTemplate();
-    }
-
-    getElement(){
-        if(this._element === null) {
-            this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
-        }
-
-        return this._element;
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }
 
@@ -531,7 +484,7 @@ class FooterComponent {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HeaderComponent; });
-/* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/createElement */ "./resource/js/utils/createElement.js");
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
 const headerTemplate = () => {
@@ -551,25 +504,9 @@ const headerTemplate = () => {
         `);
 };
 
-class HeaderComponent {
-    constructor() {
-        this._element = null;
-    }
-
+class HeaderComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
     getTemplate(){
         return headerTemplate();
-    }
-
-    getElement(){
-        if(this._element === null) {
-            this._element = Object(_utils_createElement__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.getTemplate());
-        }
-
-        return this._element;
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }
 

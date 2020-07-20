@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/createElement";
+import AbstractComponent from "../AbstractComponent";
 
 
 const template = () => {
@@ -7,36 +7,8 @@ const template = () => {
   );
 };
 
-export default class LoadMoreButtonComponent{
-    constructor(rendering) {
-        this._rendering = rendering;
-        this._element = null;
-    }
-
+export default class LoadMoreButtonComponent extends AbstractComponent{
     getTemplate(){
         return template();
-    }
-
-    getElement(){
-        if(this._element === null){
-            this._element = createElement(this.getTemplate());
-        }
-
-        const self = this;
-        this._element.addEventListener(`click`, function() {
-            self._rendering.renderLoadMore();
-
-            if(self._rendering.checkingEndFilmList()) {
-                self.removeElement();
-            }
-        });
-
-
-        return this._element;
-    }
-
-    removeElement(){
-        this._element.remove();
-        this._element = null;
     }
 }

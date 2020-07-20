@@ -1,4 +1,4 @@
-import {createElement} from "../../utils/createElement";
+import AbstractComponent from "../AbstractComponent";
 
 const template = (film) => {
     const {img, name, description, moreDescription, date_of_release} = film;
@@ -14,25 +14,14 @@ const template = (film) => {
   `);
 };
 
-export default class FilmMoreInfoComponent {
+export default class FilmMoreInfoComponent extends AbstractComponent{
     constructor(film){
+        super();
+
         this._film = film;
-        this._element = null;
     }
 
     getTemplate(){
         return template(this._film)
-    }
-
-    getElement(){
-        if(this._element === null){
-           this._element = createElement(this.getTemplate());
-        }
-
-        return this._element
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }

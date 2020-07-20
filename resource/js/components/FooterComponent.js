@@ -1,4 +1,4 @@
-import {createElement} from "../utils/createElement";
+import AbstractComponent from "./AbstractComponent";
 
 const footerTemplate = () => {
     return (`
@@ -9,24 +9,8 @@ const footerTemplate = () => {
         `);
 };
 
-export default class FooterComponent {
-    constructor() {
-        this._element = null;
-    }
-
+export default class FooterComponent extends AbstractComponent{
     getTemplate(){
         return footerTemplate();
-    }
-
-    getElement(){
-        if(this._element === null) {
-            this._element = createElement(this.getTemplate());
-        }
-
-        return this._element;
-    }
-
-    removeElement(){
-        this._element = null;
     }
 }

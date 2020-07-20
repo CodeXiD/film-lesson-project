@@ -24,7 +24,17 @@ renderingFilms.renderFirstPage();       // РЕНДЕРИМ ФИЛЬМЫ
 
 const renderLoadMoreButton = () => {
     if(films.length === 0) return;
-    const buttonElement = new LoadMoreButtonComponent(renderingFilms).getElement();
+
+    const button = new LoadMoreButtonComponent();
+    const buttonElement = button.getElement();
+
+    buttonElement.addEventListener(`click`, function() {
+        renderingFilms.renderLoadMore();
+        if(renderingFilms.checkingEndFilmList()) {
+            button.removeElement();
+        }
+    });
+
     renderDom(appElement.querySelector(`#main`), buttonElement, `before`);
 };
 

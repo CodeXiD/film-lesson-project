@@ -91,6 +91,37 @@ section#main{
     margin: 8px 0;
 }
 
+.main__items-rows > .main__items-rows__item > .more_description {
+    font-size: 13px;
+    color: #9b9b9b;
+    margin: 8px 0;
+}
+
+.main__items-rows > .main__items-rows__item > .more_info{
+    background: transparent;
+    color: #717171;
+    border: 2px solid #03A9F4;
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.main__items-rows > .main__items-rows__item > .close_info{
+    background: transparent;
+    color: #717171;
+    border: 2px solid #03A9F4;
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
 .main__items-rows > .main__items-rows__item > .date_of_release {
     font-size: 11px;
     color: #c6c5c5;
@@ -98,23 +129,25 @@ section#main{
 }
 
 
+
+
 section#films {
 
 }
 
-section#films > .films__title{
+section#main > .films__title{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-section#films > .films__title > .title{
+section#main > .films__title > .title{
     font-size: 22px;
     color: #666;
 }
 
-section#films > .films__title > #view-type-films{
+section#main > .films__title > #view-type-films{
     background: #9CDEFB;
     width: 100px;
     height: 30px;
@@ -123,7 +156,7 @@ section#films > .films__title > #view-type-films{
     justify-content: space-between;
 }
 
-section#films > .films__title > #view-type-films > div{
+section#main > .films__title > #view-type-films > div{
     flex:0 0 50px;
     background: rgba(3, 169, 244, 0);
     transition: all 0.3s;
@@ -132,18 +165,18 @@ section#films > .films__title > #view-type-films > div{
     cursor: pointer;
 }
 
-section#films > .films__title > #view-type-films > div:hover, section#films > .films__title > #view-type-films > div.active{
+section#main > .films__title > #view-type-films > div:hover, section#main > .films__title > #view-type-films > div.active{
     background: rgba(3, 169, 244, 1);
     opacity: 1;
 }
 
-section#films > .films__title > #view-type-films > div > svg{
+section#main > .films__title > #view-type-films > div > svg{
     height: 30px;
     max-width: 100%;
     padding: 4px 0;
 }
 
-section#films > .films__title > #view-type-films > div.lines > svg{
+section#main > .films__title > #view-type-films > div.lines > svg{
     height: 30px;
     max-width: 100%;
     padding: 6px 0;
@@ -163,7 +196,7 @@ section#main > #load-more{
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
-section#films > #load-more:hover{
+section#main > #load-more:hover{
     color: #4a4a4a;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25), 0 5px 10px rgba(0,0,0,0.22);
 }

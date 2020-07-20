@@ -41,6 +41,7 @@ const generateFilm = () => {
         img: generateImageFilm(),
         name: generateNameFilm(),
         description: `Example description film :)`,
+        moreDescription: `Suscipit tellus mauris a diam maecenas sed enim ut sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra`,
         date_of_release: generateDateReleaseFilm()
     };
 };

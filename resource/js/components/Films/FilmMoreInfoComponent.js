@@ -1,26 +1,27 @@
 import {createElement} from "../../utils/createElement";
 
-const createFilmTemplate = (film) => {
-    const {img, name, description, date_of_release} = film;
+const template = (film) => {
+    const {img, name, description, moreDescription, date_of_release} = film;
     return (`
             <div class="main__items-rows__item">
                 <img src="${img}" alt="Film">
                 <div class="name">${name}</div>
                 <div class="description">${description}</div>
-                <button class="more_info">More info</button>
+                <div class="more_description">${moreDescription}</div>
+                <button class="close_info">Close</button>
                 <div class="date_of_release">${date_of_release}</div>
             </div>
   `);
 };
 
-export default class FilmComponent {
+export default class FilmMoreInfoComponent {
     constructor(film){
         this._film = film;
         this._element = null;
     }
 
     getTemplate(){
-        return createFilmTemplate(this._film)
+        return template(this._film)
     }
 
     getElement(){

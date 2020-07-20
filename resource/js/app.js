@@ -1,3 +1,7 @@
+// TODO : 1. Доделать подгрузку фильмов +
+// TODO : 2. Сделать вывод информации при нажатии на кнопку More Info в карточке фильма
+// TODO : 3. Удалить не используемые файлы
+
 import {renderDom} from "./utils/render";
 import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
@@ -5,19 +9,25 @@ import FilmsComponent from "./components/Films/FilmsComponent";
 import RenderFilmsComponent from "./components/Films/RenderFilmsComponent";
 import {generateFilms} from "./mock/film";
 import LoadMoreButtonComponent from "./components/Films/LoadMoreButtonComponent";
+import {FILM_COUNT} from "./const";
 
 const appElement = document.querySelector(`#app`);
+const films = generateFilms(FILM_COUNT);
+
 
 renderDom(appElement, new HeaderComponent().getElement(), `before`);                // РЕНДЕРИМ HEADER
 renderDom(appElement, new FilmsComponent().getElement(), `before`);                 // РЕНДЕРИМ ОБЩЕЕ ПОЛЕ ДЛЯ ФИЛЬМОВ
 renderDom(appElement, new FooterComponent().getElement(), `before`);                // РЕНДЕРИМ FOOTER
-new RenderFilmsComponent(`#films-board`, generateFilms(10)).render();   // РЕНДЕРИМ ФИЛЬМЫ
+
+const listFilmsElement = document.querySelector(`#films-board`);
+
+const renderingFilms = new RenderFilmsComponent(listFilmsElement, films);
+renderingFilms.renderFirstPage();       // РЕНДЕРИМ ФИЛЬМЫ
 
 
 
 const renderLoadMoreButton = () => {
-    const buttonElement = new LoadMoreButtonComponent().getElement();
-    buttonElement.addEventListener(`click`, () => {});
+    const buttonElement = new LoadMoreButtonComponent(renderingFilms).getElement();
     renderDom(appElement.querySelector(`#main`), buttonElement, `before`);
 };
 

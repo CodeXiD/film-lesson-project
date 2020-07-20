@@ -149,7 +149,7 @@ section#films > .films__title > #view-type-films > div.lines > svg{
     padding: 6px 0;
 }
 
-section#films > #load-more{
+section#main > #load-more{
     display: block;
     width: 100%;
     outline: none;

@@ -1,7 +1,3 @@
-// TODO : 1. Доделать подгрузку фильмов +
-// TODO : 2. Сделать вывод информации при нажатии на кнопку More Info в карточке фильма +
-// TODO : 3. Удалить не используемые файлы
-
 import {renderDom} from "./utils/render";
 import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";

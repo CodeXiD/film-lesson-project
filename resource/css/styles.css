@@ -63,6 +63,12 @@ section#main{
     padding: 15px;
     box-shadow: none;
     transition: all 0.4s;
+    height: max-content;
+    min-width: 0;
+}
+
+.main__items-rows > .main__items-rows__item.active{
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .main__items-rows > .empty-films {
@@ -88,8 +94,16 @@ section#main{
     margin-bottom: 15px;
 }
 
-.main__items-rows > .main__items-rows__item > .name{
-    font-size: 16px;
+.main__items-rows > .main__items-rows__item > .mini_name{
+    font-size: 15px;
+    color: #717171;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.main__items-rows > .main__items-rows__item > .full_name{
+    font-size: 15px;
     color: #717171;
 }
 
@@ -97,6 +111,13 @@ section#main{
     font-size: 13px;
     color: #9b9b9b;
     margin: 8px 0;
+    transition: all 0.3s;
+}
+
+.main__items-rows > .main__items-rows__item > .description.mini {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .main__items-rows > .main__items-rows__item > .more_description {
@@ -120,7 +141,7 @@ section#main{
 .main__items-rows > .main__items-rows__item > .close_info{
     background: transparent;
     color: #717171;
-    border: 2px solid #03A9F4;
+    border: 2px solid #FF9292;
     outline: none;
     display: block;
     width: 100%;

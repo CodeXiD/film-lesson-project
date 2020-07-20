@@ -1,14 +1,16 @@
 import AbstractComponent from "../AbstractComponent";
+import moment from 'moment';
 
 const createFilmTemplate = (film) => {
     const {img, name, description, date_of_release} = film;
+    const date_of_release_normalize_format = moment(date_of_release).format(`DD.MM.YYYY`);
     return (`
             <div class="main__items-rows__item">
                 <img src="${img}" alt="Film">
-                <div class="name">${name}</div>
-                <div class="description">${description}</div>
-                <button class="more_info">More info</button>
-                <div class="date_of_release">${date_of_release}</div>
+                <div class="mini_name">${name}</div>
+                <div class="description mini">${description}</div>
+                <button class="more_info">Подробнее</button>
+                <div class="date_of_release">${date_of_release_normalize_format}</div>
             </div>
   `);
 };

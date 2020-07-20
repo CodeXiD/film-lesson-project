@@ -40,8 +40,8 @@ const generateFilm = () => {
     return {
         img: generateImageFilm(),
         name: generateNameFilm(),
-        description: `Example description film :)`,
-        moreDescription: `Suscipit tellus mauris a diam maecenas sed enim ut sem viverra aliquet eget sit amet tellus cras adipiscing enim eu turpis egestas pretium aenean pharetra`,
+        description: `Нет никого, кто любил бы боль саму по себе, кто искал бы её и кто хотел бы иметь её просто потому, что это боль.`,
+        moreDescription: `Меценаты сидят, пока не нужно активировать и клиническое казино. Донец аликвам нисл сит амет солликтин вестибюль. Эней всегда диаметр. Новейшая масса и чили вкладывают время или траурный белок дуи. Лев присутствует, грузовики и земля зевает, мультфильм время.`,
         date_of_release: generateDateReleaseFilm()
     };
 };

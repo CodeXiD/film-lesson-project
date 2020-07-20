@@ -13,7 +13,8 @@ export default class RenderFilmsComponent{
     }
 
     renderPrepareFilm(film){
-        const filmElement = new FilmComponent(film).getElement();
+        const Film = new FilmComponent(film);
+        const filmElement = Film.getElement();
         const buttonElement = filmElement.querySelector(`.more_info`);
         const filmMoreInfoElement = new FilmMoreInfoComponent(film).getElement();
         const filmMoreInfoButtonElement = filmMoreInfoElement.querySelector(`.close_info`);
@@ -31,7 +32,7 @@ export default class RenderFilmsComponent{
         filmMoreInfoButtonElement.addEventListener(`click`, replaceFullInfoToMainInfo);
 
 
-        renderDom(this._filmsListElement, filmElement, `before`)
+        renderDom(this._filmsListElement, Film, `before`)
     }
 
     renderFirstPage(){
@@ -62,6 +63,6 @@ export default class RenderFilmsComponent{
     }
 
     renderNoFilms(){
-        renderDom(this._filmsListElement, new NoFilmsComponent().getElement(), `before`)
+        renderDom(this._filmsListElement, new NoFilmsComponent(), `before`)
     }
 }

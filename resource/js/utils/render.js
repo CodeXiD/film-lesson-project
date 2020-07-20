@@ -1,17 +1,10 @@
-export const render = (selector, html, position = `beforeend`) => {
-    const getElement = document.querySelector(selector);
-    getElement.insertAdjacentHTML(position, html)
-};
-
-
-
-export const renderDom = (container, element, position) => {
+export const renderDom = (container, component, position) => {
     switch (position) {
         case `after`:
-            container.prepend(element);
+            container.prepend(component.getElement());
             break;
         case `before`:
-            container.append(element);
+            container.append(component.getElement());
             break;
     }
 };

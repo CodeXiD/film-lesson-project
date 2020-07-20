@@ -11,9 +11,9 @@ const appElement = document.querySelector(`#app`);
 const films = generateFilms(FILM_COUNT);
 
 
-renderDom(appElement, new HeaderComponent().getElement(), `before`);                // РЕНДЕРИМ HEADER
-renderDom(appElement, new FilmsComponent().getElement(), `before`);                 // РЕНДЕРИМ ОБЩЕЕ ПОЛЕ ДЛЯ ФИЛЬМОВ
-renderDom(appElement, new FooterComponent().getElement(), `before`);                // РЕНДЕРИМ FOOTER
+renderDom(appElement, new HeaderComponent(), `before`);                // РЕНДЕРИМ HEADER
+renderDom(appElement, new FilmsComponent(), `before`);                 // РЕНДЕРИМ ОБЩЕЕ ПОЛЕ ДЛЯ ФИЛЬМОВ
+renderDom(appElement, new FooterComponent(), `before`);                // РЕНДЕРИМ FOOTER
 
 const listFilmsElement = document.querySelector(`#films-board`);
 
@@ -35,7 +35,7 @@ const renderLoadMoreButton = () => {
         }
     });
 
-    renderDom(appElement.querySelector(`#main`), buttonElement, `before`);
+    renderDom(appElement.querySelector(`#main`), button, `before`);
 };
 
 

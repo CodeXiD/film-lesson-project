@@ -2,6 +2,7 @@ import FilmComponent from "./FilmComponent";
 import {renderDom} from "../../utils/render";
 import FilmMoreInfoComponent from "./FilmMoreInfoComponent";
 import {FILM_COUNT, SHOWING_FILMS_FROM_LOAD_MORE, SHOWING_FILMS_FROM_FIRST_PAGE} from "../../const";
+import NoFilmsComponent from "./NoFilmsComponent";
 
 
 export default class RenderFilmsComponent{
@@ -34,6 +35,11 @@ export default class RenderFilmsComponent{
     }
 
     renderFirstPage(){
+        if(this._films.length === 0){
+            this.renderNoFilms();
+            return;
+        }
+
         this._films.slice(0, SHOWING_FILMS_FROM_FIRST_PAGE).map(film => {
             this.renderPrepareFilm(film);
         });
@@ -53,5 +59,9 @@ export default class RenderFilmsComponent{
 
     checkingEndFilmList(){
         return this._countRendeingFilms >= FILM_COUNT
+    }
+
+    renderNoFilms(){
+        renderDom(this._filmsListElement, new NoFilmsComponent().getElement(), `before`)
     }
 }

@@ -23,6 +23,7 @@ renderingFilms.renderFirstPage();       // РЕНДЕРИМ ФИЛЬМЫ
 
 
 const renderLoadMoreButton = () => {
+    if(films.length === 0) return;
     const buttonElement = new LoadMoreButtonComponent(renderingFilms).getElement();
     renderDom(appElement.querySelector(`#main`), buttonElement, `before`);
 };

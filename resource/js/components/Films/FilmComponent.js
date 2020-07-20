@@ -22,4 +22,8 @@ export default class FilmComponent extends AbstractComponent{
     getTemplate(){
         return createFilmTemplate(this._film)
     }
+
+    setClickOfButtonMoreInfoHandler(handler){
+        this.getElement().querySelector(`.more_info`).addEventListener(`click`, handler);
+    }
 }

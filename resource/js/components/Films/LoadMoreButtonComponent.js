@@ -1,6 +1,5 @@
 import AbstractComponent from "../AbstractComponent";
 
-
 const template = () => {
   return (
       `<button id="load-more">Load more</button>`
@@ -8,7 +7,11 @@ const template = () => {
 };
 
 export default class LoadMoreButtonComponent extends AbstractComponent{
-    getTemplate(){
+    getTemplate() {
         return template();
+    }
+
+    setClickHandler(handler){
+        this.getElement().addEventListener(`click`, handler);
     }
 }

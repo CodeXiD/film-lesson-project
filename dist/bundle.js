@@ -99,10 +99,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/HeaderComponent */ "./resource/js/components/HeaderComponent.js");
 /* harmony import */ var _components_FooterComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/FooterComponent */ "./resource/js/components/FooterComponent.js");
 /* harmony import */ var _components_Films_FilmsComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Films/FilmsComponent */ "./resource/js/components/Films/FilmsComponent.js");
-/* harmony import */ var _components_Films_RenderFilmsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Films/RenderFilmsComponent */ "./resource/js/components/Films/RenderFilmsComponent.js");
-/* harmony import */ var _mock_film__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./mock/film */ "./resource/js/mock/film.js");
-/* harmony import */ var _components_Films_LoadMoreButtonComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Films/LoadMoreButtonComponent */ "./resource/js/components/Films/LoadMoreButtonComponent.js");
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./const */ "./resource/js/const.js");
+/* harmony import */ var _mock_film__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mock/film */ "./resource/js/mock/film.js");
+/* harmony import */ var _components_Films_LoadMoreButtonComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Films/LoadMoreButtonComponent */ "./resource/js/components/Films/LoadMoreButtonComponent.js");
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./const */ "./resource/js/const.js");
+/* harmony import */ var _controllers_FilmsController__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./controllers/FilmsController */ "./resource/js/controllers/FilmsController.js");
 
 
 
@@ -113,38 +113,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const appElement = document.querySelector(`#app`);
-const films = Object(_mock_film__WEBPACK_IMPORTED_MODULE_5__["generateFilms"])(_const__WEBPACK_IMPORTED_MODULE_7__["FILM_COUNT"]);
+const films = Object(_mock_film__WEBPACK_IMPORTED_MODULE_4__["generateFilms"])(_const__WEBPACK_IMPORTED_MODULE_6__["FILM_COUNT"]);
 
 
-Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement, new _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_1__["default"]().getElement(), `before`);                // РЕНДЕРИМ HEADER
-Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement, new _components_Films_FilmsComponent__WEBPACK_IMPORTED_MODULE_3__["default"]().getElement(), `before`);                 // РЕНДЕРИМ ОБЩЕЕ ПОЛЕ ДЛЯ ФИЛЬМОВ
-Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement, new _components_FooterComponent__WEBPACK_IMPORTED_MODULE_2__["default"]().getElement(), `before`);                // РЕНДЕРИМ FOOTER
+Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement, new _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_1__["default"](), `before`);                // РЕНДЕРИМ HEADER
+Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement, new _components_Films_FilmsComponent__WEBPACK_IMPORTED_MODULE_3__["default"](), `before`);                 // РЕНДЕРИМ ОБЩЕЕ ПОЛЕ ДЛЯ ФИЛЬМОВ
+Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement, new _components_FooterComponent__WEBPACK_IMPORTED_MODULE_2__["default"](), `before`);                // РЕНДЕРИМ FOOTER
 
 const listFilmsElement = document.querySelector(`#films-board`);
 
-const renderingFilms = new _components_Films_RenderFilmsComponent__WEBPACK_IMPORTED_MODULE_4__["default"](listFilmsElement, films);
-renderingFilms.renderFirstPage();       // РЕНДЕРИМ ФИЛЬМЫ
-
-
+const buttonLoadMoreFilms = new _components_Films_LoadMoreButtonComponent__WEBPACK_IMPORTED_MODULE_5__["default"]();
 
 const renderLoadMoreButton = () => {
     if(films.length === 0) return;
 
-    const button = new _components_Films_LoadMoreButtonComponent__WEBPACK_IMPORTED_MODULE_6__["default"]();
-    const buttonElement = button.getElement();
-
-    buttonElement.addEventListener(`click`, function() {
-        renderingFilms.renderLoadMore();
-        if(renderingFilms.checkingEndFilmList()) {
-            button.removeElement();
-        }
+    buttonLoadMoreFilms.setClickHandler(function() {
+        Films.render(films);
     });
 
-    Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement.querySelector(`#main`), buttonElement, `before`);
+    Object(_utils_render__WEBPACK_IMPORTED_MODULE_0__["renderDom"])(appElement.querySelector(`#main`), buttonLoadMoreFilms, `before`);
 };
 
 
 renderLoadMoreButton();     // РЕНДЕР КНОПКИ ПОДРУЗКИ ФИЛЬМОВ + СОБЫТИЕ НАЖАНИЯ
+
+const Films = new _controllers_FilmsController__WEBPACK_IMPORTED_MODULE_7__["default"](listFilmsElement, buttonLoadMoreFilms);
+Films.render(films);
 
 
 /***/ }),
@@ -184,88 +178,7 @@ class AbstractComponent{
     }
 
     removeElement(){
-        if(this._element !== null) this._element.remove();
         this._element = null;
-    }
-}
-
-/***/ }),
-
-/***/ "./resource/js/components/Films/FilmComponent.js":
-/*!*******************************************************!*\
-  !*** ./resource/js/components/Films/FilmComponent.js ***!
-  \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmComponent; });
-/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
-
-
-const createFilmTemplate = (film) => {
-    const {img, name, description, date_of_release} = film;
-    return (`
-            <div class="main__items-rows__item">
-                <img src="${img}" alt="Film">
-                <div class="name">${name}</div>
-                <div class="description">${description}</div>
-                <button class="more_info">More info</button>
-                <div class="date_of_release">${date_of_release}</div>
-            </div>
-  `);
-};
-
-class FilmComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
-    constructor(film){
-        super();
-        this._film = film;
-    }
-
-    getTemplate(){
-        return createFilmTemplate(this._film)
-    }
-}
-
-/***/ }),
-
-/***/ "./resource/js/components/Films/FilmMoreInfoComponent.js":
-/*!***************************************************************!*\
-  !*** ./resource/js/components/Films/FilmMoreInfoComponent.js ***!
-  \***************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmMoreInfoComponent; });
-/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
-
-
-const template = (film) => {
-    const {img, name, description, moreDescription, date_of_release} = film;
-    return (`
-            <div class="main__items-rows__item">
-                <img src="${img}" alt="Film">
-                <div class="name">${name}</div>
-                <div class="description">${description}</div>
-                <div class="more_description">${moreDescription}</div>
-                <button class="close_info">Close</button>
-                <div class="date_of_release">${date_of_release}</div>
-            </div>
-  `);
-};
-
-class FilmMoreInfoComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
-    constructor(film){
-        super();
-
-        this._film = film;
-    }
-
-    getTemplate(){
-        return template(this._film)
     }
 }
 
@@ -317,7 +230,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
 
 
-
 const template = () => {
   return (
       `<button id="load-more">Load more</button>`
@@ -325,120 +237,12 @@ const template = () => {
 };
 
 class LoadMoreButtonComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
-    getTemplate(){
+    getTemplate() {
         return template();
     }
-}
 
-/***/ }),
-
-/***/ "./resource/js/components/Films/NoFilmsComponent.js":
-/*!**********************************************************!*\
-  !*** ./resource/js/components/Films/NoFilmsComponent.js ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NoFilmsComponent; });
-/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
-
-
-const template = () => {
-    return (`
-            <div class="empty-films">Films is empty</div>
-    `);
-};
-
-class NoFilmsComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
-    getTemplate(){
-        return template()
-    }
-}
-
-/***/ }),
-
-/***/ "./resource/js/components/Films/RenderFilmsComponent.js":
-/*!**************************************************************!*\
-  !*** ./resource/js/components/Films/RenderFilmsComponent.js ***!
-  \**************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RenderFilmsComponent; });
-/* harmony import */ var _FilmComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FilmComponent */ "./resource/js/components/Films/FilmComponent.js");
-/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/render */ "./resource/js/utils/render.js");
-/* harmony import */ var _FilmMoreInfoComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FilmMoreInfoComponent */ "./resource/js/components/Films/FilmMoreInfoComponent.js");
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../const */ "./resource/js/const.js");
-/* harmony import */ var _NoFilmsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NoFilmsComponent */ "./resource/js/components/Films/NoFilmsComponent.js");
-
-
-
-
-
-
-
-class RenderFilmsComponent{
-    constructor(filmsListElement, films) {
-        this._films = films;
-        this._filmsListElement = filmsListElement;
-        this._countRendeingFilms = 0;
-    }
-
-    renderPrepareFilm(film){
-        const filmElement = new _FilmComponent__WEBPACK_IMPORTED_MODULE_0__["default"](film).getElement();
-        const buttonElement = filmElement.querySelector(`.more_info`);
-        const filmMoreInfoElement = new _FilmMoreInfoComponent__WEBPACK_IMPORTED_MODULE_2__["default"](film).getElement();
-        const filmMoreInfoButtonElement = filmMoreInfoElement.querySelector(`.close_info`);
-
-        const replaceMainInfoToFullInfo = () => {
-            filmElement.replaceWith(filmMoreInfoElement);
-        };
-
-        buttonElement.addEventListener(`click`, replaceMainInfoToFullInfo);
-
-        const replaceFullInfoToMainInfo = () => {
-            filmMoreInfoElement.replaceWith(filmElement);
-        };
-
-        filmMoreInfoButtonElement.addEventListener(`click`, replaceFullInfoToMainInfo);
-
-
-        Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._filmsListElement, filmElement, `before`)
-    }
-
-    renderFirstPage(){
-        if(this._films.length === 0){
-            this.renderNoFilms();
-            return;
-        }
-
-        this._films.slice(0, _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_FIRST_PAGE"]).map(film => {
-            this.renderPrepareFilm(film);
-        });
-
-        this._countRendeingFilms = _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_FIRST_PAGE"];
-    }
-
-    renderLoadMore(){
-        const lastIndexFilmInLoad = this._countRendeingFilms + _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_LOAD_MORE"];
-
-        this._films.slice(this._countRendeingFilms, lastIndexFilmInLoad).map(film => {
-            this.renderPrepareFilm(film);
-        });
-
-        this._countRendeingFilms += _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_LOAD_MORE"];
-    }
-
-    checkingEndFilmList(){
-        return this._countRendeingFilms >= _const__WEBPACK_IMPORTED_MODULE_3__["FILM_COUNT"]
-    }
-
-    renderNoFilms(){
-        Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._filmsListElement, new _NoFilmsComponent__WEBPACK_IMPORTED_MODULE_4__["default"]().getElement(), `before`)
+    setClickHandler(handler){
+        this.getElement().addEventListener(`click`, handler);
     }
 }
 
@@ -512,6 +316,121 @@ class HeaderComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["d
 
 /***/ }),
 
+/***/ "./resource/js/components/films/FilmComponent.js":
+/*!*******************************************************!*\
+  !*** ./resource/js/components/films/FilmComponent.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmComponent; });
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
+
+
+const createFilmTemplate = (film) => {
+    const {img, name, description, date_of_release} = film;
+    return (`
+            <div class="main__items-rows__item">
+                <img src="${img}" alt="Film">
+                <div class="name">${name}</div>
+                <div class="description">${description}</div>
+                <button class="more_info">More info</button>
+                <div class="date_of_release">${date_of_release}</div>
+            </div>
+  `);
+};
+
+class FilmComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
+    constructor(film){
+        super();
+        this._film = film;
+    }
+
+    getTemplate(){
+        return createFilmTemplate(this._film)
+    }
+
+    setClickOfButtonMoreInfoHandler(handler){
+        this.getElement().querySelector(`.more_info`).addEventListener(`click`, handler);
+    }
+}
+
+/***/ }),
+
+/***/ "./resource/js/components/films/FilmMoreInfoComponent.js":
+/*!***************************************************************!*\
+  !*** ./resource/js/components/films/FilmMoreInfoComponent.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmMoreInfoComponent; });
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
+
+
+const template = (film) => {
+    const {img, name, description, moreDescription, date_of_release} = film;
+    return (`
+            <div class="main__items-rows__item">
+                <img src="${img}" alt="Film">
+                <div class="name">${name}</div>
+                <div class="description">${description}</div>
+                <div class="more_description">${moreDescription}</div>
+                <button class="close_info">Close</button>
+                <div class="date_of_release">${date_of_release}</div>
+            </div>
+  `);
+};
+
+class FilmMoreInfoComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
+    constructor(film){
+        super();
+
+        this._film = film;
+    }
+
+    getTemplate(){
+        return template(this._film)
+    }
+
+    setClickOfButtonMainInfoHandler(handler){
+        this.getElement().querySelector(`.close_info`).addEventListener(`click`, handler);
+    }
+}
+
+/***/ }),
+
+/***/ "./resource/js/components/films/NoFilmsComponent.js":
+/*!**********************************************************!*\
+  !*** ./resource/js/components/films/NoFilmsComponent.js ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NoFilmsComponent; });
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
+
+
+const template = () => {
+    return (`
+            <div class="empty-films">Films is empty</div>
+    `);
+};
+
+class NoFilmsComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
+    getTemplate(){
+        return template()
+    }
+}
+
+/***/ }),
+
 /***/ "./resource/js/const.js":
 /*!******************************!*\
   !*** ./resource/js/const.js ***!
@@ -529,6 +448,76 @@ const SHOWING_FILMS_FROM_FIRST_PAGE = 8;
 const SHOWING_FILMS_FROM_LOAD_MORE = 8;
 
 
+
+/***/ }),
+
+/***/ "./resource/js/controllers/FilmsController.js":
+/*!****************************************************!*\
+  !*** ./resource/js/controllers/FilmsController.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FilmsController; });
+/* harmony import */ var _components_films_FilmComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/films/FilmComponent */ "./resource/js/components/films/FilmComponent.js");
+/* harmony import */ var _utils_render__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/render */ "./resource/js/utils/render.js");
+/* harmony import */ var _components_films_FilmMoreInfoComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/films/FilmMoreInfoComponent */ "./resource/js/components/films/FilmMoreInfoComponent.js");
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../const */ "./resource/js/const.js");
+/* harmony import */ var _components_films_NoFilmsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/films/NoFilmsComponent */ "./resource/js/components/films/NoFilmsComponent.js");
+/* harmony import */ var _utils_removeComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/removeComponent */ "./resource/js/utils/removeComponent.js");
+
+
+
+
+
+
+
+class FilmsController{
+    constructor(container, buttonLoadMoreFilms) {
+        this._container = container;
+        this._countRendeingFilms = 0;
+        this._buttonLoadFilmsComponent = buttonLoadMoreFilms;
+    }
+
+    render(films){
+
+        if(films.length === 0) this.renderEmptyFilmList();
+
+        let countNewFilms = _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_LOAD_MORE"];
+        if(this._countRendeingFilms === 0) countNewFilms = _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_FIRST_PAGE"];
+
+        films.slice(this._countRendeingFilms, this._countRendeingFilms + countNewFilms).map(film => {
+            const Film = new _components_films_FilmComponent__WEBPACK_IMPORTED_MODULE_0__["default"](film);
+            const FilmMoreInfo = new _components_films_FilmMoreInfoComponent__WEBPACK_IMPORTED_MODULE_2__["default"](film);
+            const filmElement = Film.getElement();
+            const filmMoreInfoElement = FilmMoreInfo.getElement();
+
+
+            Film.setClickOfButtonMoreInfoHandler(() => {
+                filmElement.replaceWith(filmMoreInfoElement);
+            });
+
+
+            FilmMoreInfo.setClickOfButtonMainInfoHandler(() => {
+                filmMoreInfoElement.replaceWith(filmElement);
+            });
+
+            Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._container, Film, `before`)
+        });
+
+        this._countRendeingFilms = this._countRendeingFilms + countNewFilms;
+
+        if(this._countRendeingFilms > films.length){
+            Object(_utils_removeComponent__WEBPACK_IMPORTED_MODULE_5__["removeComponent"])(this._buttonLoadFilmsComponent);
+        }
+    }
+
+    renderEmptyFilmList(){
+        Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._container, new _components_films_NoFilmsComponent__WEBPACK_IMPORTED_MODULE_4__["default"](), `before`);
+    }
+}
 
 /***/ }),
 
@@ -637,31 +626,42 @@ const getRandomInteger = (max) => {
 
 /***/ }),
 
-/***/ "./resource/js/utils/render.js":
-/*!*************************************!*\
-  !*** ./resource/js/utils/render.js ***!
-  \*************************************/
-/*! exports provided: render, renderDom */
+/***/ "./resource/js/utils/removeComponent.js":
+/*!**********************************************!*\
+  !*** ./resource/js/utils/removeComponent.js ***!
+  \**********************************************/
+/*! exports provided: removeComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderDom", function() { return renderDom; });
-const render = (selector, html, position = `beforeend`) => {
-    const getElement = document.querySelector(selector);
-    getElement.insertAdjacentHTML(position, html)
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeComponent", function() { return removeComponent; });
+const removeComponent = (component) => {
+    component.getElement().remove();
+    component.removeElement();
 };
 
 
 
-const renderDom = (container, element, position) => {
+/***/ }),
+
+/***/ "./resource/js/utils/render.js":
+/*!*************************************!*\
+  !*** ./resource/js/utils/render.js ***!
+  \*************************************/
+/*! exports provided: renderDom */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "renderDom", function() { return renderDom; });
+const renderDom = (container, component, position) => {
     switch (position) {
         case `after`:
-            container.prepend(element);
+            container.prepend(component.getElement());
             break;
         case `before`:
-            container.append(element);
+            container.append(component.getElement());
             break;
     }
 };

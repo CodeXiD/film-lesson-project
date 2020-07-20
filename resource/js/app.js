@@ -2,11 +2,10 @@ import {renderDom} from "./utils/render";
 import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 import FilmsComponent from "./components/Films/FilmsComponent";
-import RenderFilmsComponent from "./components/Films/RenderFilmsComponent";
 import {generateFilms} from "./mock/film";
 import LoadMoreButtonComponent from "./components/Films/LoadMoreButtonComponent";
 import {FILM_COUNT} from "./const";
- import {removeComponent} from "./utils/removeComponent";
+import FilmsController from "./controllers/FilmsController";
 
 const appElement = document.querySelector(`#app`);
 const films = generateFilms(FILM_COUNT);
@@ -18,26 +17,20 @@ renderDom(appElement, new FooterComponent(), `before`);                // РЕН
 
 const listFilmsElement = document.querySelector(`#films-board`);
 
-const renderingFilms = new RenderFilmsComponent(listFilmsElement, films);
-renderingFilms.renderFirstPage();       // РЕНДЕРИМ ФИЛЬМЫ
-
-
+const buttonLoadMoreFilms = new LoadMoreButtonComponent();
 
 const renderLoadMoreButton = () => {
     if(films.length === 0) return;
 
-    const button = new LoadMoreButtonComponent();
-    const buttonElement = button.getElement();
-
-    buttonElement.addEventListener(`click`, function() {
-        renderingFilms.renderLoadMore();
-        if(renderingFilms.checkingEndFilmList()) {
-            removeComponent(button);
-        }
+    buttonLoadMoreFilms.setClickHandler(function() {
+        Films.render(films);
     });
 
-    renderDom(appElement.querySelector(`#main`), button, `before`);
+    renderDom(appElement.querySelector(`#main`), buttonLoadMoreFilms, `before`);
 };
 
 
 renderLoadMoreButton();     // РЕНДЕР КНОПКИ ПОДРУЗКИ ФИЛЬМОВ + СОБЫТИЕ НАЖАНИЯ
+
+const Films = new FilmsController(listFilmsElement, buttonLoadMoreFilms);
+Films.render(films);

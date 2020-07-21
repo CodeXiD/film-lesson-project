@@ -21426,7 +21426,10 @@ const createFilmsTemplate = () => {
 
     return (`
             <section id="main">
-                <div class="films__title"><div class="title">Лучшие фильмы</div></div>
+                <div class="films__title">
+                    <div class="title">Лучшие фильмы</div>
+                    <div class="view-type-films"></div>
+                </div>
                 <div class="main__items-rows" id="films-board">
                     
                 </div>
@@ -21468,6 +21471,55 @@ class LoadMoreButtonComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODUL
 
     setClickHandler(handler){
         this.getElement().addEventListener(`click`, handler);
+    }
+}
+
+/***/ }),
+
+/***/ "./resource/js/components/Films/ViewTypesComponent.js":
+/*!************************************************************!*\
+  !*** ./resource/js/components/Films/ViewTypesComponent.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ViewTypesComponent; });
+/* harmony import */ var _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../AbstractComponent */ "./resource/js/components/AbstractComponent.js");
+
+
+const template = (viewType) => {
+    return (
+            `<div><div class="rows ${(viewType === `row`) ? `active` : ``}" data-view-type="row">
+                <svg xmlns="http://www.w3.org/2000/svg" width="434" height="434" viewBox="0 0 433.5 433.5" fill="#fff"><path d="M0 204h127.5V51H0V204zM0 382.5h127.5v-153H0V382.5zM153 382.5h127.5v-153H153V382.5zM306 382.5h127.5v-153H306V382.5zM153 204h127.5V51H153V204zM306 51v153h127.5V51H306z"/></svg>
+            </div>
+            <div class="lines ${(viewType === `line`) ? `active` : ``}" data-view-type="line">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="149.3"/><rect y="192" width="512" height="128"/><rect y="362.7" width="512" height="149.3"/></svg>
+            </div></div>`
+    );
+};
+
+class ViewTypesComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
+    constructor(viewType) {
+        super();
+        this._viewType = viewType;
+    }
+    getTemplate(){
+        return template(this._viewType);
+    }
+
+    setViewType(newViewType){
+        this._viewType = newViewType;
+    }
+
+    getViewType(){
+        return this._viewType;
+    }
+
+    setClickChooseViewTypeHandler(handler){
+        this.getElement().querySelector(`.rows`).addEventListener(`click`, handler);
+        this.getElement().querySelector(`.lines`).addEventListener(`click`, handler);
     }
 }
 
@@ -21557,28 +21609,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const createFilmTemplate = (film) => {
+const createFilmTemplate = (film, viewType) => {
     const {img, name, description, date_of_release} = film;
     const date_of_release_normalize_format = moment__WEBPACK_IMPORTED_MODULE_1___default()(date_of_release).format(`DD.MM.YYYY`);
     return (`
-            <div class="main__items-rows__item">
+            <div class="main__items-rows__item ${viewType}">
                 <img src="${img}" alt="Film">
-                <div class="mini_name">${name}</div>
-                <div class="description mini">${description}</div>
-                <button class="more_info">Подробнее</button>
+                <div class="main-information">
+                    <div class="mini_name">${name}</div>
+                    <div class="description mini">${description}</div>
+                    <button class="more_info">Подробнее</button>
+                </div>
+                
                 <div class="date_of_release">${date_of_release_normalize_format}</div>
             </div>
   `);
 };
 
 class FilmComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
-    constructor(film){
+    constructor(film, viewType){
         super();
         this._film = film;
+        this._viewType = viewType;
     }
 
     getTemplate(){
-        return createFilmTemplate(this._film)
+        return createFilmTemplate(this._film, this._viewType)
     }
 
     setClickOfButtonMoreInfoHandler(handler){
@@ -21604,30 +21660,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const template = (film) => {
+const template = (film, viewType) => {
     const {img, name, description, moreDescription, date_of_release} = film;
     const date_of_release_normalize_format = moment__WEBPACK_IMPORTED_MODULE_1___default()(date_of_release).format(`DD.MM.YYYY`);
     return (`
-            <div class="main__items-rows__item active">
+            <div class="main__items-rows__item ${viewType} active">
                 <img src="${img}" alt="Film">
-                <div class="full_name">${name}</div>
-                <div class="description">${description}</div>
-                <div class="more_description">${moreDescription}</div>
-                <button class="close_info">Скрыть</button>
+                <div class="main-information">
+                    <div class="full_name">${name}</div>
+                    <div class="description">${description}</div>
+                    <div class="more_description">${moreDescription}</div>
+                    <button class="close_info">Скрыть</button>
+                </div>
                 <div class="date_of_release">${date_of_release_normalize_format}</div>
             </div>
   `);
 };
 
 class FilmMoreInfoComponent extends _AbstractComponent__WEBPACK_IMPORTED_MODULE_0__["default"]{
-    constructor(film){
+    constructor(film, viewType){
         super();
 
         this._film = film;
+        this._viewType = viewType;
     }
 
     getTemplate(){
-        return template(this._film)
+        return template(this._film, this._viewType)
     }
 
     setClickOfButtonMainInfoHandler(handler){
@@ -21700,6 +21759,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../const */ "./resource/js/const.js");
 /* harmony import */ var _components_films_NoFilmsComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/films/NoFilmsComponent */ "./resource/js/components/films/NoFilmsComponent.js");
 /* harmony import */ var _utils_removeComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/removeComponent */ "./resource/js/utils/removeComponent.js");
+/* harmony import */ var _components_Films_ViewTypesComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Films/ViewTypesComponent */ "./resource/js/components/Films/ViewTypesComponent.js");
+
 
 
 
@@ -21712,18 +21773,22 @@ class FilmsController{
         this._container = container;
         this._countRendeingFilms = 0;
         this._buttonLoadFilmsComponent = buttonLoadMoreFilms;
+        this._viewTypesContainer = document.querySelector(`.view-type-films`);
+        this._viewType = new _components_Films_ViewTypesComponent__WEBPACK_IMPORTED_MODULE_6__["default"](`row`);
+        this.renderViewType();
     }
 
     render(films){
+        this._films = films;
 
-        if(films.length === 0) this.renderEmptyFilmList();
+        if(this._films.length === 0) this.renderEmptyFilmList();
 
         let countNewFilms = _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_LOAD_MORE"];
         if(this._countRendeingFilms === 0) countNewFilms = _const__WEBPACK_IMPORTED_MODULE_3__["SHOWING_FILMS_FROM_FIRST_PAGE"];
 
         films.slice(this._countRendeingFilms, this._countRendeingFilms + countNewFilms).map(film => {
-            const Film = new _components_films_FilmComponent__WEBPACK_IMPORTED_MODULE_0__["default"](film);
-            const FilmMoreInfo = new _components_films_FilmMoreInfoComponent__WEBPACK_IMPORTED_MODULE_2__["default"](film);
+            const Film = new _components_films_FilmComponent__WEBPACK_IMPORTED_MODULE_0__["default"](film, this._viewType.getViewType());
+            const FilmMoreInfo = new _components_films_FilmMoreInfoComponent__WEBPACK_IMPORTED_MODULE_2__["default"](film, this._viewType.getViewType());
             const filmElement = Film.getElement();
             const filmMoreInfoElement = FilmMoreInfo.getElement();
 
@@ -21737,18 +21802,40 @@ class FilmsController{
                 filmMoreInfoElement.replaceWith(filmElement);
             });
 
-            Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._container, Film, `before`)
+            Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._container, Film, `before`);
         });
 
         this._countRendeingFilms = this._countRendeingFilms + countNewFilms;
 
-        if(this._countRendeingFilms > films.length){
+        if(this._countRendeingFilms > this._films.length){
             Object(_utils_removeComponent__WEBPACK_IMPORTED_MODULE_5__["removeComponent"])(this._buttonLoadFilmsComponent);
         }
+
+
+
     }
 
     renderEmptyFilmList(){
         Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._container, new _components_films_NoFilmsComponent__WEBPACK_IMPORTED_MODULE_4__["default"](), `before`);
+    }
+
+    renderViewType(viewType = `row`){
+        this._viewType.setViewType(viewType);
+
+        this._viewType.setClickChooseViewTypeHandler((evt) => {
+            const newViewType = evt.currentTarget.dataset.viewType;
+            if(this._viewType.getViewType() !== newViewType){
+                this._container.innerHTML = ``;
+                this._countRendeingFilms = 0;
+                 Object(_utils_removeComponent__WEBPACK_IMPORTED_MODULE_5__["removeComponent"])(this._viewType);
+                this.renderViewType(newViewType);
+                this._countRendeingFilms = 0;
+                this.render(this._films);
+            }
+        });
+        Object(_utils_render__WEBPACK_IMPORTED_MODULE_1__["renderDom"])(this._viewTypesContainer, this._viewType, `before`);
+
+
     }
 }
 

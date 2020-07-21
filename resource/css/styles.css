@@ -56,7 +56,7 @@ section#main{
     flex-wrap: wrap;
 }
 
-.main__items-rows > .main__items-rows__item{
+.main__items-rows > .main__items-rows__item.row{
     flex: 0 0 calc(24% - 5px);
     margin: 0 2px 10px 0;
     background: #fff;
@@ -67,7 +67,7 @@ section#main{
     min-width: 0;
 }
 
-.main__items-rows > .main__items-rows__item.active{
+.main__items-rows > .main__items-rows__item.row.active{
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
@@ -79,22 +79,22 @@ section#main{
     margin: 10px 0;
 }
 
-.main__items-rows > .main__items-rows__item:nth-child(4n){
+.main__items-rows > .main__items-rows__item.row:nth-child(4n){
     margin: 0 0 10px 0;
 }
 
-.main__items-rows > .main__items-rows__item:hover{
+.main__items-rows > .main__items-rows__item.row:hover{
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
-.main__items-rows > .main__items-rows__item > img{
+.main__items-rows > .main__items-rows__item.row > img{
     width: 100%;
     height: 140px;
     object-fit: contain;
     margin-bottom: 15px;
 }
 
-.main__items-rows > .main__items-rows__item > .mini_name{
+.main__items-rows > .main__items-rows__item.row > .main-information > .mini_name{
     font-size: 15px;
     color: #717171;
     white-space: nowrap;
@@ -102,31 +102,31 @@ section#main{
     text-overflow: ellipsis;
 }
 
-.main__items-rows > .main__items-rows__item > .full_name{
+.main__items-rows > .main__items-rows__item.row > .main-information > .full_name{
     font-size: 15px;
     color: #717171;
 }
 
-.main__items-rows > .main__items-rows__item > .description {
+.main__items-rows > .main__items-rows__item.row > .main-information > .description {
     font-size: 13px;
     color: #9b9b9b;
     margin: 8px 0;
     transition: all 0.3s;
 }
 
-.main__items-rows > .main__items-rows__item > .description.mini {
+.main__items-rows > .main__items-rows__item.row > .main-information > .description.mini {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.main__items-rows > .main__items-rows__item > .more_description {
+.main__items-rows > .main__items-rows__item.row > .main-information > .more_description {
     font-size: 13px;
     color: #9b9b9b;
     margin: 8px 0;
 }
 
-.main__items-rows > .main__items-rows__item > .more_info{
+.main__items-rows > .main__items-rows__item.row > .main-information > .more_info{
     background: transparent;
     color: #717171;
     border: 2px solid #03A9F4;
@@ -138,7 +138,7 @@ section#main{
     cursor: pointer;
 }
 
-.main__items-rows > .main__items-rows__item > .close_info{
+.main__items-rows > .main__items-rows__item.row > .main-information > .close_info{
     background: transparent;
     color: #717171;
     border: 2px solid #FF9292;
@@ -151,13 +151,101 @@ section#main{
     margin-top: 8px;
 }
 
-.main__items-rows > .main__items-rows__item > .date_of_release {
+.main__items-rows > .main__items-rows__item.row > .date_of_release {
     font-size: 11px;
     color: #c6c5c5;
     text-align: right;
 }
 
 
+
+/*
+    ФИЛЬМЫ В СТРОКУ
+ */
+
+.main__items-rows > .main__items-rows__item.line{
+    flex: 0 0 100%;
+    margin: 0 2px 10px 0;
+    background: #fff;
+    padding: 0;
+    box-shadow: none;
+    transition: all 0.4s;
+    height: max-content;
+    min-width: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.main__items-rows > .main__items-rows__item.line img{
+    flex: 0 0 110px;
+    object-fit: contain;
+}
+
+.main__items-rows > .main__items-rows__item.line .main-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left:15px;
+    padding: 15px 0;
+    min-width: 0;
+}
+
+.main__items-rows > .main__items-rows__item.line .main-information > .mini_name {
+    font-size: 18px;
+    color: #717171;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.main__items-rows > .main__items-rows__item.line .main-information > .full_name {
+    font-size: 18px;
+    color: #717171;
+    margin-bottom: 8px;
+}
+
+.main__items-rows > .main__items-rows__item.line .main-information > .description {
+    font-size: 14px;
+    color: #9b9b9b;
+}
+
+.main__items-rows > .main__items-rows__item.line .main-information > .description.mini {
+    font-size: 14px;
+    color: #9b9b9b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.main__items-rows > .main__items-rows__item.line .main-information > .more_description {
+    font-size: 14px;
+    color: #9b9b9b;
+    margin-top: 8px;
+}
+
+.main__items-rows > .main__items-rows__item.line .more_info, .main__items-rows > .main__items-rows__item.line .close_info  {
+    background: transparent;
+    border: 2px solid #03A9F4;
+    color: #717171;
+    height: max-content;
+    outline: none;
+    padding: 5px;
+    margin: 15px 15px 15px 0;
+    cursor: pointer;
+    width: max-content;
+}
+
+.main__items-rows > .main__items-rows__item.line .close_info {
+    border: 2px solid #FF9292;
+}
+
+.main__items-rows > .main__items-rows__item.line .date_of_release{
+    font-size: 11px;
+    color: #c6c5c5;
+    text-align: right;
+    margin:15px;
+    flex: 1;
+}
 
 
 section#films {
@@ -176,7 +264,7 @@ section#main > .films__title > .title{
     color: #666;
 }
 
-section#main > .films__title > #view-type-films{
+section#main .films__title .view-type-films > div{
     background: #9CDEFB;
     width: 100px;
     height: 30px;
@@ -185,7 +273,7 @@ section#main > .films__title > #view-type-films{
     justify-content: space-between;
 }
 
-section#main > .films__title > #view-type-films > div{
+section#main .films__title .view-type-films > div > div{
     flex:0 0 50px;
     background: rgba(3, 169, 244, 0);
     transition: all 0.3s;
@@ -194,18 +282,18 @@ section#main > .films__title > #view-type-films > div{
     cursor: pointer;
 }
 
-section#main > .films__title > #view-type-films > div:hover, section#main > .films__title > #view-type-films > div.active{
+section#main .films__title .view-type-films > div > div:hover, section#main .films__title .view-type-films > div > div.active{
     background: rgba(3, 169, 244, 1);
     opacity: 1;
 }
 
-section#main > .films__title > #view-type-films > div > svg{
+section#main .films__title .view-type-films > div > div > svg{
     height: 30px;
     max-width: 100%;
     padding: 4px 0;
 }
 
-section#main > .films__title > #view-type-films > div.lines > svg{
+section#main .films__title .view-type-films > div > div.lines > svg{
     height: 30px;
     max-width: 100%;
     padding: 6px 0;
